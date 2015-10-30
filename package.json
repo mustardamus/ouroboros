@@ -1,0 +1,11 @@
+{
+  "name": "ouroboros",
+  "version": "0.1.0",
+  "description": "Because of the process.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sebastian Senf <me@akrasia.me> (http://akrasia.me)",
+  "license": "MIT"
+}
