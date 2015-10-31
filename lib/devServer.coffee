@@ -24,7 +24,8 @@ class DevServer
     ]
 
     @browserSyncStart()
-    @watchClientChanges()
+
+    browserSync.watch(@watchClientFiles).on 'all', @onClientFileChange
 
   build: (type) ->
     build[type] (err, path) ->
@@ -40,11 +41,6 @@ class DevServer
       files: @watchPublicFiles
 
     browserSync.init bsConfig
-
-  watchClientChanges: ->
-    debouncedFunc = _.debounce(@onClientFileChange, 100)
-
-    browserSync.watch(@watchClientFiles).on 'all', debouncedFunc
 
   onClientFileChange: (event, path) ->
     if path is "#{config.paths.client}/index.html"

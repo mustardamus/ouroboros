@@ -1,7 +1,9 @@
-fs         = require('fs')
-browserify = require('browserify')
-stylus     = require('stylus')
-config     = require('../config')
+fs           = require('fs')
+browserify   = require('browserify')
+stylus       = require('stylus')
+autoprefixer = require('autoprefixer')
+postcss      = require('postcss')
+config       = require('../config')
 
 class Build
   constructor: ->
@@ -37,8 +39,9 @@ class Build
       if(err)
         cb(err)
       else
-        fs.writeFileSync outPath, css, 'utf8'
-        cb(null, outPath)
+        postcss([autoprefixer]).process(css).then (result) ->
+          fs.writeFileSync outPath, result.css, 'utf8'
+          cb(null, outPath)
 
 
 module.exports = new Build
