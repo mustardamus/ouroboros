@@ -4,8 +4,26 @@
   "description": "Because of the process.",
   "main": "index.js",
   "scripts": {
+    "start": "node node_modules/foreman/nf.js start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Sebastian Senf <me@akrasia.me> (http://akrasia.me)",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.14.1",
+    "browser-sync": "^2.9.11",
+    "browserify": "^12.0.1",
+    "chalk": "^1.1.1",
+    "coffee-script": "^1.10.0",
+    "coffeeify": "^1.1.0",
+    "crud-mongoose": "^1.0.23",
+    "express": "^4.13.3",
+    "foreman": "^1.4.1",
+    "forever": "^0.15.1",
+    "html2js-browserify": "^1.1.0",
+    "lodash": "^3.10.1",
+    "mongoose": "^4.2.3",
+    "node-crud": "^2.0.10",
+    "stylus": "^0.52.4"
+  }
 }
