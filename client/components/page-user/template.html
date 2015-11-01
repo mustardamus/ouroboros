@@ -1,0 +1,10 @@
+<div class="page-user">
+  <form v-on:submit.prevent="onSubmit" class="ui form">
+    <div class="field">
+      <label>username</label>
+      <input v-model="user.username" type="text" placeholder="Username">
+    </div>
+
+    <button class="ui button" type="submit">Submit</button>
+  </form>
+</div>

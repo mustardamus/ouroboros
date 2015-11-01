@@ -10,3 +10,7 @@ module.exports =
     component: require('../components/page-users')
     params:
       menu: { name: 'All Users', icon: 'users' }
+
+  '/user/:id':
+    name: 'user'
+    component: require('../components/page-user')

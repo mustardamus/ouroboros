@@ -2,6 +2,7 @@
   <ul>
     <li v-for="user in users">
       {{user.username}}
+      <a v-link="{ name: 'user', params: { id: user._id }}">Show</a>
       <a v-on:click="onDelete(user._id)">Delete</a>
     </li>
   </ul>
