@@ -5,10 +5,22 @@ module.exports =
   components: {}
 
   data: ->
+    users   : []
+    username: ''
 
   ready: ->
-    @$crud('/users').read (err, users) ->
-      console.log err, users
+    @$crud('/users').read (err, users) =>
+      @$data.users = users
 
   methods:
-    onClick: (e) ->
+    onSubmit: ->
+      obj = { username: @$data.username }
+
+      @$crud('/users').create obj, (err, user) =>
+        @$data.users.push user
+        @$data.username = ''
+
+    onDelete: (id) ->
+      @$crud("/users/#{id}").del (err, res) =>
+        @$data.users = _.remove @$data.users, (user) ->
+          user._id isnt id
