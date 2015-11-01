@@ -18,7 +18,11 @@ class Build
     inPath  = "#{config.paths.client}/#{config.html.entry}"
     outPath = "#{config.paths.public}/#{config.html.output}"
 
-    fs.copy inPath, outPath, cb
+    fs.copy inPath, outPath, (err) ->
+      if err
+        cb(err)
+      else
+        cb(null, outPath)
 
   libs: (cb) ->
     inPath  = "#{config.paths.client}/#{config.browserify.entry}"
@@ -40,8 +44,9 @@ class Build
     outPath = "#{config.paths.public}/#{config.browserify.output}"
     stream  = fs.createWriteStream(outPath)
 
+    stream.on('close', -> cb(null, outPath))
+
     @scriptBundle.bundle()
-      .on('end', -> cb(null, outPath))
       .on('error', (err) -> cb(err))
       .pipe(stream)
 

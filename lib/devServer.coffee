@@ -17,7 +17,7 @@ class DevServer
       "#{config.paths.client}/**/*.html"
     ]
 
-    @build 'font' # copy fontawesome and other files used by semantic-ui
+    @initialBuild()
     @browserSyncStart()
     @watchClientFileChanges()
 
@@ -29,6 +29,10 @@ class DevServer
         browserSync.reload(path)
         console.log chalk.green("Compiled #{path}")
 
+  initialBuild: ->
+    for type in ['libs', 'html', 'script', 'style', 'font']
+      @build type
+    
   browserSyncStart: ->
     bsConfig = _.extend {}, config.browserSync.options,
       port : config.devServer.port
