@@ -3,5 +3,6 @@ module.exports =
   data    : require('./data')
 
   ready: ->
+    console.log @$route
 
   methods: {}

@@ -3,6 +3,7 @@ global ../node_modules/vue/dist/vue.js
 global ../node_modules/vue-router/dist/vue-router.js
 global ../bower_components/zepto/zepto.js
 global ../node_modules/socket.io-client/socket.io.js
+global ../node_modules/node-crud/dist/crud.js
 
 global #../bower_components/semantic/dist/components/accordion.js
 global #../bower_components/semantic/dist/components/checkbox.js

@@ -32,7 +32,7 @@ class DevServer
   initialBuild: ->
     for type in ['libs', 'html', 'script', 'style', 'font']
       @build type
-    
+
   browserSyncStart: ->
     bsConfig = _.extend {}, config.browserSync.options,
       port : config.devServer.port
