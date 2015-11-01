@@ -1,4 +1,5 @@
 ###
+global ../bower_components/lodash/lodash.js
 global ../node_modules/vue/dist/vue.js
 global ../node_modules/vue-router/dist/vue-router.js
 global ../bower_components/zepto/zepto.js

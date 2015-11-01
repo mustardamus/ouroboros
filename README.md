@@ -20,3 +20,14 @@ To exclude a global script, but still have the path available, just make then
 path invalid, with a # for example:
 
     global #../bower_components/semantic/dist/components/accordion.js
+
+## Generate Top Navigation dynamically
+
+If you set a menu param to a route, it will be automatically included in the Top
+navigation:
+
+    '/users':
+      name: 'users'
+      component: require('../components/page-users')
+      params:
+        menu: { name: 'All Users', icon: 'users' }

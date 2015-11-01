@@ -1,13 +1,11 @@
 <div class="layout">
   <div id="header" class="ui fixed inverted menu">
     <div class="ui container">
-      <a v-link="{ name: 'home' }" class="item">
-        <i class="home icon"></i>Home
-      </a>
-
-      <a v-link="{ name: 'users' }" class="item">
-        <i class="home icon"></i>Home
-      </a>
+      <template v-for="menuItem in menuItems">
+        <a v-link="menuItem.url" class="item">
+          <i class="{{menuItem.icon}} icon"></i>{{menuItem.name}}
+        </a>
+      </template>
     </div>
   </div>
 
