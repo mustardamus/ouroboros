@@ -1,4 +1,5 @@
-fs           = require('fs')
+path         = require('path')
+fs           = require('fs-extra')
 browserify   = require('browserify')
 stylus       = require('stylus')
 autoprefixer = require('autoprefixer')
@@ -17,16 +18,30 @@ class Build
     inPath  = "#{config.paths.client}/#{config.html.entry}"
     outPath = "#{config.paths.public}/#{config.html.output}"
 
-    fs.createReadStream(inPath)
-      .on('end', -> cb(null, outPath))
-      .pipe(fs.createWriteStream(outPath))
+    fs.copy inPath, outPath, cb
+
+  libs: (cb) ->
+    inPath  = "#{config.paths.client}/#{config.browserify.entry}"
+    outPath = "#{config.paths.public}/libs.js"
+    content = fs.readFileSync(inPath, 'utf8')
+    libsArr = []
+
+    for global in content.split('global ')
+      libPath = global.split('\n')[0]
+      libPath = path.join(config.paths.client, libPath)
+
+      if fs.existsSync(libPath)
+        libsArr.push fs.readFileSync(libPath, 'utf8')
+
+    fs.writeFileSync outPath, libsArr.join(';\n'), 'utf8'
+    cb null, outPath
 
   script: (cb) ->
-    path   = "#{config.paths.public}/#{config.browserify.output}"
-    stream = fs.createWriteStream(path)
+    outPath = "#{config.paths.public}/#{config.browserify.output}"
+    stream  = fs.createWriteStream(outPath)
 
     @scriptBundle.bundle()
-      .on('end', -> cb(null, path))
+      .on('end', -> cb(null, outPath))
       .on('error', (err) -> cb(err))
       .pipe(stream)
 
@@ -35,13 +50,17 @@ class Build
     outPath = "#{config.paths.public}/#{config.stylus.output}"
     styl    = fs.readFileSync(inPath, 'utf8')
 
-    stylus.render styl, (err, css) =>
-      if(err)
-        cb(err)
-      else
-        postcss([autoprefixer]).process(css).then (result) ->
-          fs.writeFileSync outPath, result.css, 'utf8'
-          cb(null, outPath)
+    stylus(styl)
+      .set('filename', config.stylus.output)
+      .set('paths', [config.paths.client])
+      .set('include css', true)
+      .render (err, css) ->
+        if(err)
+          cb(err)
+        else
+          postcss([autoprefixer]).process(css).then (result) ->
+            fs.writeFileSync outPath, result.css, 'utf8'
+            cb(null, outPath)
 
 
 module.exports = new Build

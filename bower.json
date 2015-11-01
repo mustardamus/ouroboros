@@ -1,0 +1,26 @@
+{
+  "name": "ouroboros",
+  "description": "Because of the process.",
+  "main": "index.js",
+  "authors": [
+    "Sebastian Senf <me@akrasia.me> (http://akrasia.me)"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/mustardamus/ouroboros",
+  "moduleType": [
+    "globals",
+    "node"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "zepto": "~1.1.6",
+    "semantic": "semantic-ui#~2.1.4"
+  }
+}

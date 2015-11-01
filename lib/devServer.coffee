@@ -11,12 +11,6 @@ class DevServer
 
     chalk.enabled = true
 
-    @watchPublicFiles = [
-      "#{config.paths.public}/#{config.html.output}"
-      "#{config.paths.public}/#{config.browserify.output}"
-      "#{config.paths.public}/#{config.stylus.output}"
-    ]
-
     @watchClientFiles = [
       "#{config.paths.client}/**/*.coffee"
       "#{config.paths.client}/**/*.styl"
@@ -24,8 +18,7 @@ class DevServer
     ]
 
     @browserSyncStart()
-
-    browserSync.watch(@watchClientFiles).on 'all', @onClientFileChange
+    @watchClientFileChanges()
 
   build: (type) ->
     build[type] (err, path) ->
@@ -33,23 +26,32 @@ class DevServer
         console.log chalk.red(err)
       else
         browserSync.reload(path)
+        console.log chalk.green("Compiled #{path}")
 
   browserSyncStart: ->
     bsConfig = _.extend {}, config.browserSync.options,
       port : config.devServer.port
       proxy: "localhost:#{config.server.port}"
-      files: @watchPublicFiles
 
     browserSync.init bsConfig
 
-  onClientFileChange: (event, path) ->
-    if path is "#{config.paths.client}/index.html"
-      @build 'html'
-    else
-      extension = _.last(path.split('/')).split('.')[1]
+  watchClientFileChanges: ->
+    debouncedFunc = _.debounce(@onClientFileChange, 100)
+    
+    browserSync.watch(@watchClientFiles).on 'all', debouncedFunc
 
-      switch extension
-        when 'coffee', 'html' then @build 'script'
-        when 'styl'           then @build 'style'
+  onClientFileChange: (event, path) ->
+    switch path
+      when "#{config.paths.client}/#{config.html.entry}"
+        @build('html')
+      when "#{config.paths.client}/#{config.browserify.entry}"
+        @build('libs')
+      else
+        extension = _.last(path.split('/')).split('.')[1]
+
+        switch extension
+          when 'coffee', 'html' then @build('script')
+          when 'styl'           then @build('style')
+
 
 module.exports = new DevServer

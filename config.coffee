@@ -9,8 +9,8 @@ module.exports =
 
   browserSync:
     options: # extended initial options
-      notify: false
-      open  : false
+      notify        : false
+      open          : false
 
   server:
     port: 9991 # will be proxied by devServer on localhost
@@ -18,12 +18,14 @@ module.exports =
   browserify: # builds the script entry of the app
     entry     : 'index.coffee' # in client directory
     output    : 'bundle.js' # in public directory
-    transforms: ['coffeeify', 'html2js-browserify'] # applied transforms
+    transforms: [ # applied transforms
+      'coffeeify'
+      'html2js-browserify'
+      'require-globify'
+    ]
     options   : # initial options
-      cache       : {}
-      packageCache: {}
-      fullPaths   : false
-      extensions  : ['.coffee', '.html']
+      fullPaths    : false
+      extensions   : ['.coffee', '.html']
 
   stylus: # builds the style entry of the app
     entry: 'index.styl' # in client directory
