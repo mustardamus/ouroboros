@@ -23,6 +23,7 @@
     "foreman": "^1.4.1",
     "forever": "^0.15.1",
     "fs-extra": "^0.26.0",
+    "glob": "^5.0.15",
     "html2js-browserify": "^1.1.0",
     "lodash": "^3.10.1",
     "mongoose": "^4.2.3",

@@ -1,41 +1,51 @@
+_          = require('lodash')
 express    = require('express')
-bodyParser = require('body-parser')
 crud       = require('node-crud')
 mongoose   = require('mongoose')
 cm         = require('crud-mongoose')
+glob       = require('glob')
+chalk      = require('chalk')
 
-Schema = new mongoose.Schema
-  username: { type: String, required: true }
-  created : { type: Date, default: Date.now }
+class Server
+  constructor: ->
+    chalk.enabled = true
 
-Model = mongoose.model('users', Schema)
+    @app = express()
 
-app = express()
+    @inits  = @dirToHash("#{__dirname}/initialize/*.coffee")
+    @models = @dirToHash("#{__dirname}/models/*.coffee")
+    @routes = @dirToHash("#{__dirname}/routes/*.coffee")
 
-app.use express.static("#{__dirname}/../public")
-app.use bodyParser.urlencoded({ extended: true })
-app.use bodyParser.json()
+    @initialize()
+    @start()
 
-crud.entity('/users').Create()
-  .pipe(cm.createNew(Model));
+  initialize: ->
+    for name, func of @inits
+      func.call @app
 
-crud.entity('/users').Read()
-  .pipe(cm.findAll(Model))
+    for name, func of @models
+      @models[name] = func.call(mongoose)
 
-crud.entity('/users').Delete()
-    .pipe(cm.removeAll(Model));
+    for name, func of @routes
+      new func(@app, crud, cm, @models)
 
-crud.entity('/users/:_id').Read()
-  .pipe(cm.findOne(Model))
+  start: ->
+    mongoose.connect 'mongodb://localhost/ouroboros'
+    crud.launch(@app)
+    @app.listen(9991)
+    console.log 'Lets roll'
 
-crud.entity('/users/:_id').Update()
-  .pipe(cm.updateOne(Model));
+  dirToHash: (path) ->
+    outObj = {}
+    files  = glob.sync(path)
 
-crud.entity('/users/:_id').Delete()
-  .pipe(cm.removeOne(Model));
+    for file in files
+      name         = _.last(file.split('/')).split('.')[0]
+      outObj[name] = require(file)
 
-mongoose.connect 'mongodb://localhost/ouroboros'
+      console.log "#{chalk.green('Initialized')} #{chalk.yellow(file)}"
 
-crud.launch(app)
-app.listen(9991)
-console.log 'Lets roll'
+    outObj
+
+
+module.exports = new Server
