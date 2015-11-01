@@ -34,3 +34,7 @@ module.exports =
   html: # copys the main html entry of the app
     entry: 'index.html' # in client directory
     output: 'index.html' # in public directory
+
+  font: # copys fontawesome files
+    entry: 'bower_components/semantic/dist/themes' # in root directory
+    output: 'themes' # in public directory

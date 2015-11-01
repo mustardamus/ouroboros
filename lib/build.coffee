@@ -62,5 +62,15 @@ class Build
             fs.writeFileSync outPath, result.css, 'utf8'
             cb(null, outPath)
 
+  font: (cb) ->
+    inPath = "#{__dirname}/../#{config.font.entry}"
+    outPath = "#{config.paths.public}/#{config.font.output}"
+
+    fs.copy inPath, outPath, (err) ->
+      if err
+        cb(err)
+      else
+        cb(null, outPath)
+
 
 module.exports = new Build

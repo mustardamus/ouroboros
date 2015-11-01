@@ -17,6 +17,7 @@ class DevServer
       "#{config.paths.client}/**/*.html"
     ]
 
+    @build 'font' # copy fontawesome and other files used by semantic-ui
     @browserSyncStart()
     @watchClientFileChanges()
 
@@ -37,7 +38,7 @@ class DevServer
 
   watchClientFileChanges: ->
     debouncedFunc = _.debounce(@onClientFileChange, 100)
-    
+
     browserSync.watch(@watchClientFiles).on 'all', debouncedFunc
 
   onClientFileChange: (event, path) ->
