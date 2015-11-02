@@ -27,7 +27,7 @@ class DevServer
         console.log chalk.red(err)
       else
         browserSync.reload(path)
-        console.log chalk.green("Compiled #{path}")
+        console.log "#{chalk.green("Compiled")} #{chalk.yellow(path)}"
 
   initialBuild: ->
     for type in ['libs', 'html', 'script', 'style', 'font']
@@ -36,7 +36,7 @@ class DevServer
   browserSyncStart: ->
     bsConfig = _.extend {}, config.browserSync.options,
       port : config.devServer.port
-      proxy: "localhost:#{config.server.port}"
+      proxy: { target: "localhost:#{config.server.port}", ws: true }
 
     browserSync.init bsConfig
 

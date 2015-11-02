@@ -1,5 +1,5 @@
 class Route
-  constructor: (@app, @crud, @cm, @models) ->
+  constructor: (@config, @app, @crud, @cm, @models, @io) ->
     entityAll    = @crud.entity('/users')
     entitySingle = @crud.entity('/users/:_id')
     Model        = @models.user
@@ -11,5 +11,9 @@ class Route
     entitySingle.Read().pipe(@cm.findOne(Model))
     entitySingle.Update().pipe(@cm.updateOne(Model))
     entitySingle.Delete().pipe(@cm.removeOne(Model))
+
+    @io.on 'connection', (socket) =>
+      socket.on 'message', (message) =>
+        @io.emit 'message', message
 
 module.exports = Route

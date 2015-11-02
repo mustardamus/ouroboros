@@ -9,8 +9,12 @@ module.exports =
 
   browserSync:
     options: # extended initial options
-      notify        : false
-      open          : false
+      notify   : false
+      open     : false
+      ghostMode:
+        clicks: true
+        scroll: true
+        forms : false
 
   server:
     port: 9991 # will be proxied by devServer on localhost

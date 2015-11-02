@@ -1,0 +1,14 @@
+<div class="page-chat">
+  <ul>
+    <li v-for="msg in messages">
+      {{msg}}
+    </li>
+  </ul>
+
+  <form v-on:submit.prevent="onSubmit" class="ui form">
+    <div class="field">
+      <label>Message</label>
+      <input v-model="message" type="text" placeholder="Your message...">
+    </div>
+  </form>
+</div>
