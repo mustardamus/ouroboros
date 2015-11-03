@@ -7,7 +7,7 @@ module.exports =
   data: ->
     entity  : 'users'
     users   : []
-    username: ''
+    username: ' '
 
   ready: ->
     @$crud().read (err, users) =>

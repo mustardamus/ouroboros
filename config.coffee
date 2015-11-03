@@ -1,8 +1,9 @@
 module.exports =
   paths:
-    client: "#{__dirname}/client" # client framework and files
-    public: "#{__dirname}/public" # compiled files from client
-    server: "#{__dirname}/server" # server framework and files
+    client   : "#{__dirname}/client" # client framework and files
+    public   : "#{__dirname}/public" # compiled files from client
+    server   : "#{__dirname}/server" # server framework and files
+    templates: "#{__dirname}/templates" # templates for the generator
 
   devServer:
     port: 9990 # served by browser-sync

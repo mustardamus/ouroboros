@@ -1,5 +1,6 @@
 module.exports = ->
   Vue.use(VueRouter)
+  #Vue.use(window['vue-validator'])
 
   Vue.mixin(require('../mixins/ajax'))
   Vue.mixin(require('../mixins/crud'))

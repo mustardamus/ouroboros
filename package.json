@@ -5,11 +5,13 @@
   "main": "index.js",
   "scripts": {
     "start": "node node_modules/foreman/nf.js start",
-    "pack": "node node_modules/coffee-script/bin/coffee lib/pack.coffee"
+    "pack": "node node_modules/coffee-script/bin/coffee lib/pack.coffee",
+    "gen": "node node_modules/coffee-script/bin/coffee lib/generator.coffee"
   },
   "author": "Sebastian Senf <me@akrasia.me> (http://akrasia.me)",
   "license": "MIT",
   "dependencies": {
+    "async": "^1.5.0",
     "autoprefixer": "^6.0.3",
     "body-parser": "^1.14.1",
     "browser-sync": "^2.9.11",
@@ -24,7 +26,9 @@
     "forever": "^0.15.1",
     "fs-extra": "^0.26.0",
     "glob": "^5.0.15",
+    "hogan.js": "^3.0.2",
     "html2js-browserify": "^1.1.0",
+    "inquirer": "^0.11.0",
     "lodash": "^3.10.1",
     "mongoose": "^4.2.3",
     "node-crud": "https://github.com/mustardamus/crud.git",
@@ -35,6 +39,7 @@
     "stylus": "^0.52.4",
     "uglify-js": "^2.5.0",
     "vue": "^1.0.4",
-    "vue-router": "^0.7.5"
+    "vue-router": "^0.7.5",
+    "vue-validator": "^1.4.4"
   }
 }
