@@ -3,3 +3,6 @@ node_modules
 bower_components
 public
 temp
+
+# should be doewloaded by oro generator
+selenium-server-standalone-2.48.2.jar

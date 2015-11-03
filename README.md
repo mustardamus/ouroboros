@@ -31,3 +31,11 @@ navigation:
       component: require('../components/page-users')
       params:
         menu: { name: 'All Users', icon: 'users' }
+
+## Run all Tests
+
+This will load the /tests/index.js file with will expand the test case with every
+spec*.coffee, can also be in a subdirectory.
+
+    npm install nightwatch -g
+    nightwatch
