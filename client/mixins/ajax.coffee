@@ -12,6 +12,9 @@ module.exports =
         cb  = opt
         opt = {}
 
+      if @$root.$data.currentToken
+        data.token = @$root.$data.currentToken
+
       ajaxObj =
         type       : type
         url        : url

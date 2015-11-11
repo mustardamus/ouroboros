@@ -2,7 +2,7 @@ module.exports =
   methods:
     $crud: (id = null) ->
       unless @$data.entity
-        return console.log("Set @$data.entity on VM before calling crud()")
+        return console.log('Set @$data.entity on VM before calling crud()')
 
       urlObj  = {}
       url     = @$data.entity
