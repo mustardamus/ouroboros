@@ -1,6 +1,9 @@
-module.exports = ->
+module.exports = (helpers) ->
   Schema = new @Schema
     username: { type: String, required: true }
-    created : { type: Date, default: Date.now }
+    password: { type: String }
+    email   : { type: String }
+  ,
+    timestamps: true
 
-  @model('User', Schema)
+  @model 'User', Schema

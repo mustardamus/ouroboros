@@ -16,6 +16,7 @@ module.exports =
     setFormError: (message) ->
       @$data.errorMessage = message
       $('form', @$el).removeClass('loading').addClass 'error'
+      $('input', @$el).first().focus()
 
     onSubmit: ->
       $('form', @$el).addClass 'loading'

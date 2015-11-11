@@ -6,8 +6,29 @@
           <i class="{{menuItem.icon}} icon"></i>{{menuItem.name}}
         </a>
       </template>
+
+      <div class="right menu">
+        <!--<a v-link="{ name: 'login'}" v-if="!loggedIn" class="item">
+          <i class="sign in icon"></i>Login
+        </a>-->
+
+        <a v-link="{ name: 'register'}" v-if="!loggedIn" class="item">
+          <i class="add user icon"></i>Register
+        </a>
+
+        <!--<a v-link="{ name: 'user'}" v-if="loggedIn" class="item">
+          <i class="user icon"></i>Hello, {{currentUser.username}}!
+        </a>-->
+
+        <a class="item">{{currentUser.username}}</a>
+
+        <a href="#!/logout" v-if="loggedIn" class="item">
+          <i class="sign out icon"></i>Logout
+        </a>
+      </div>
     </div>
   </div>
 
   <router-view id="content" class="ui main container"></router-view>
+  <auth></auth>
 </div>

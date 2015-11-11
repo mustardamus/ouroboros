@@ -1,0 +1,26 @@
+<div class="page-register">
+  <form class="ui form">
+    <div class="ui error message">
+      {{errorMessage}}
+    </div>
+
+    <div class="field" id="username-field">
+      <label for="username">Username</label>
+      <input type="text" v-model="username" id="username" placeholder="Username">
+    </div>
+
+    <div class="field" id="password-field">
+      <label for="password">Password</label>
+      <input type="password" v-model="password" id="password" placeholder="Password">
+    </div>
+
+    <div class="field" id="password-check-field">
+      <label for="password-check">Password Check</label>
+      <input type="password" v-model="passwordCheck" id="password-check" placeholder="Password Check">
+    </div>
+
+    <button class="ui button primary" type="submit" v-on:click.prevent="onRegisterClick">
+      Register
+    </button>
+  </form>
+</div>
