@@ -10,16 +10,18 @@ module.exports =
     capitalize: (str) -> _.capitalize(str)
 
   templates:
-    'Client Component':
+    'Client Component - Page':
       files:
-        'client/components/index.coffee': 'client/components/^^nameSingular^^/index.coffee'
-        'client/components/style.styl': 'client/components/^^namePluralLowercase^^/style.styl'
+        'client/components/page/index.coffee': 'client/components/page-^^pageName^^/index.coffee'
+        'client/components/page/template.html': 'client/components/page-^^pageName^^/template.html'
+        'client/components/page/style.styl': 'client/components/page-^^pageName^^/style.styl'
+        'client/components/page/route.coffee': 'client/routes/^^pageName^^.coffee'
 
     'Server Route Component':
       files:
         'server/route/route.coffee': 'server/routes/^^name^^.coffee'
 
-    'Complete Entity (Client Components & Server Model/Route)':
+    'Complete Entity (Client Components/Routes & Server Model/Route)':
       files:
         'client+server/entity/client/page-collection/index.coffee' : 'client/components/page-^^entityNamePlural^^/index.coffee'
         'client+server/entity/client/page-collection/style.styl'   : 'client/components/page-^^entityNamePlural^^/style.styl'

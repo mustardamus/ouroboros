@@ -6,16 +6,16 @@ class UsersRoute
   constructor: (@config, @app, @crud, @cm, @models, @io) ->
     @entityAll    = @crud.entity('/users')
     @entitySingle = @crud.entity('/users/:_id')
-    Model        = @models.user
 
     @createUserRoute()
     @getUserRoute()
+    @loginUserRoute()
 
-    @entityAll.Read().pipe(@cm.findAll(Model))
-    @entityAll.Delete().pipe(@cm.removeAll(Model))
+    #@entityAll.Read().pipe(@cm.findAll(Model))
+    #@entityAll.Delete().pipe(@cm.removeAll(Model))
 
-    @entitySingle.Update().pipe(@cm.updateOne(Model))
-    @entitySingle.Delete().pipe(@cm.removeOne(Model))
+    #@entitySingle.Update().pipe(@cm.updateOne(Model))
+    #@entitySingle.Delete().pipe(@cm.removeOne(Model))
 
   createUserRoute: ->
     @entityAll.Create()
@@ -32,7 +32,7 @@ class UsersRoute
       .pipe (data, query, cb) =>
         @models.user.count { username: data.username }, (err, count) ->
           return cb(err) if(err)
-          return cb({ message: 'Username already exists.' }) if(count isnt 0)
+          return cb({ message: 'Username already exists' }) if(count isnt 0)
           cb()
 
       .pipe (data, query, cb) =>
@@ -60,6 +60,23 @@ class UsersRoute
         cb null, data, query
 
       .pipe @cm.findOne(@models.user)
+
+  loginUserRoute: ->
+    @app.post '/api/login', (req, res, next) =>
+      unless req.body.username
+        return res.status(403).json({ message: 'Provide a username' })
+
+      unless req.body.password
+        return res.status(403).json({ message: 'Provide a password' })
+
+      @models.user.findOne { username: req.body.username }, (err, user) =>
+        if err or !user
+          res.status(403).json({ message: 'Error finding user to log in' })
+        else
+          unless bcrypt.compareSync(req.body.password, user.password)
+            res.status(403).json({ message: 'Wrong password' })
+          else
+            res.json({ token: jwt.sign(user._id, @config.auth.secret) })
 
 
 module.exports = UsersRoute

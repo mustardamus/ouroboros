@@ -52,4 +52,4 @@ module.exports =
           @setFormError err.message
         else
           @$root.$data.currentToken = res.token
-          #@$route.router.go { name: 'account', params: { id: res.userId }}
+          @$route.router.go { name: 'home', params: { id: res.userId }}
