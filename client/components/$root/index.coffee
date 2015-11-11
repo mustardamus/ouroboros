@@ -1,4 +1,4 @@
-routes = require('../../routes')
+routes = require('../../routes')()
 
 module.exports =
   template: require('./template')

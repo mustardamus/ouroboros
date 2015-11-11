@@ -1,22 +1,9 @@
-module.exports =
-  '/':
-    name     : 'home'
-    component: require('../components/page-home')
-    params:
-      menu: { name: 'Home', icon: 'home' }
+module.exports = ->
+  outObj = {}
 
-  '/chat':
-    name: 'chat'
-    component: require('../components/page-chat')
-    params:
-      menu: { name: 'Chat', icon: 'plane' }
+  for n, routeObj of require('./*.coffee', { mode: 'hash' })
+    if typeof routeObj isnt 'function' # not this file
+      for routePath, routeData of routeObj
+        outObj[routePath] = routeData
 
-  '/posts':
-    name: 'posts'
-    component: require('../components/page-posts')
-    params:
-      menu: { name: 'Posts', icon: 'plane' }
-
-  '/posts/:id':
-    name: 'post'
-    component: require('../components/page-post')
+  outObj

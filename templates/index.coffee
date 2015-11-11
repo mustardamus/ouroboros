@@ -27,5 +27,6 @@ module.exports =
         'client+server/entity/client/page-item/index.coffee'       : 'client/components/page-^^entityNameSingular^^/index.coffee'
         'client+server/entity/client/page-item/style.styl'         : 'client/components/page-^^entityNameSingular^^/style.styl'
         'client+server/entity/client/page-item/template.html'      : 'client/components/page-^^entityNameSingular^^/template.html'
+        'client+server/entity/client/route.coffee'                 : 'client/routes/^^entityNamePlural^^.coffee'
         'client+server/entity/server/route.coffee'                 : 'server/routes/^^entityNamePlural^^.coffee'
         'client+server/entity/server/model.coffee'                 : 'server/models/^^entityNameSingular^^.coffee'

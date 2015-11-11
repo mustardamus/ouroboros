@@ -9,5 +9,5 @@ module.exports = ->
   $root   = Vue.extend(require('../components/$root'))
   $router = new VueRouter({ linkActiveClass: 'active' })
 
-  $router.map require('../routes')
+  $router.map require('../routes')()
   $router.start $root, '#app'
