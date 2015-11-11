@@ -6,3 +6,7 @@ module.exports =
   '/login':
     name     : 'login'
     component: require('../components/page-login')
+
+  '/account':
+    name     : 'account'
+    component: require('../components/page-account')

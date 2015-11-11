@@ -9,12 +9,12 @@ class UsersRoute
 
     @createUserRoute()
     @getUserRoute()
+    @updateUserRoute()
     @loginUserRoute()
 
     #@entityAll.Read().pipe(@cm.findAll(Model))
     #@entityAll.Delete().pipe(@cm.removeAll(Model))
 
-    #@entitySingle.Update().pipe(@cm.updateOne(Model))
     #@entitySingle.Delete().pipe(@cm.removeOne(Model))
 
   createUserRoute: ->
@@ -28,13 +28,11 @@ class UsersRoute
         cb null,
           username: data.username
           password: bcrypt.hashSync(data.password, salt)
-
       .pipe (data, query, cb) =>
         @models.user.count { username: data.username }, (err, count) ->
           return cb(err) if(err)
           return cb({ message: 'Username already exists' }) if(count isnt 0)
           cb()
-
       .pipe (data, query, cb) =>
         user = new @models.user
           username: data.username
@@ -54,11 +52,37 @@ class UsersRoute
           cb null, data, { _id: @request.user._id }
         else
           cb()
-
       .pipe (data, query, cb) =>
-        query.fields = 'username,createdAt'
-        cb null, data, query
+        query.fields = 'username,email,createdAt,updatedAt'
+        cb()
+      .pipe @cm.findOne(@models.user)
 
+  updateUserRoute: ->
+    self = @
+
+    @entitySingle.Update()
+      .use auth(@config, @models)
+      .pipe (data, query, cb) ->
+        if query._id and query._id is 'me'
+          cb null, data, { _id: @request.user._id }
+        else
+          unless @request.user.admin
+            cb { message: 'You can only update your own account' }
+          else
+            cb()
+      .pipe (data, query, cb) ->
+        if data.username and data.username isnt @request.user.username
+          self.models.user.count { username: data.username }, (err, count) =>
+            if(err or count isnt 0)
+              cb({ message: 'Username already exists' })
+            else
+              cb()
+        else
+          cb()
+      .pipe @cm.updateOne(@models.user)
+      .pipe (data, query, cb) ->
+        query.fields = 'username,email,createdAt,updatedAt'
+        cb()
       .pipe @cm.findOne(@models.user)
 
   loginUserRoute: ->

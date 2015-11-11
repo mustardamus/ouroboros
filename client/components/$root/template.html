@@ -16,11 +16,9 @@
           <i class="add user icon"></i>Register
         </a>
 
-        <!--<a v-link="{ name: 'user'}" v-if="loggedIn" class="item">
+        <a v-link="{ name: 'account'}" v-if="loggedIn" class="item">
           <i class="user icon"></i>Hello, {{currentUser.username}}!
-        </a>-->
-
-        <a class="item">{{currentUser.username}}</a>
+        </a>
 
         <a href="#!/logout" v-if="loggedIn" class="item">
           <i class="sign out icon"></i>Logout
