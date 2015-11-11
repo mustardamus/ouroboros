@@ -1,0 +1,31 @@
+<div class="ui grid">
+  <div class="ten wide column">
+    <template v-if="!^^entityNameSingular^^ && !notFound">
+      loading...
+    </template>
+
+    <template v-if="notFound">
+      <h1>404 - Not found</h1>
+    </template>
+
+    <template v-if="^^entityNameSingular^^ && !notFound">
+      <h1 v-if="^^entityNameSingular^^">{{^^entityNameSingular^^.name}}</h1>
+    </template>
+  </div>
+
+  <div class="six wide column">
+    <form v-if="^^entityNameSingular^^" v-on:submit.prevent="onSubmit" class="ui form">
+      <div class="ui error message">
+        {{errorMessage}}
+      </div>
+
+      <div class="field">
+        <label>^^entityNameSingular^^ name</label>
+        <textarea v-model="^^entityNameSingular^^.name" type="text" placeholder="..."></textarea>
+      </div>
+
+      <button class="ui button primary" type="submit">Submit</button>
+      <a v-on:click="onDelete()" class="ui button red">Delete</a>
+    </form>
+  </div>
+</div>

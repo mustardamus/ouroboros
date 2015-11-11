@@ -5,10 +5,49 @@ inquirer  = require('inquirer')
 chalk     = require('chalk')
 async     = require('async')
 config    = require('../config')
-templates = require("#{config.paths.templates}")
+modifiers = require("#{config.paths.templates}").modifiers
+templates = require("#{config.paths.templates}").templates
 
 class Generator
   constructor: ->
+    @requestComponentType (err, template) =>
+      variables = []
+
+      for inPath, outPath of template.files
+        content = fs.readFileSync("#{config.paths.templates}/#{inPath}", 'utf8')
+
+        variables.push @extractVariables(content)
+        variables.push @extractVariables(outPath)
+
+      variables = _.unique(_.flatten(variables))
+      variablesWithoutMods = @cleanModifiers(variables)
+
+      @requestVariables template, variablesWithoutMods, (err, template, data) =>
+        @buildTemplates template, @expandData(variables, data)
+
+  expandData: (variables, data) ->
+    for variable in variables
+      mods    = []
+      varName = variable.replace(/([a-z](?=[A-Z]))/g, '$1 ')
+      parts   = varName.split(' ')
+
+      for part in parts
+        if modifiers[part.toLowerCase()]
+          varName = varName.replace(part, '')
+          mods.push part.toLowerCase()
+
+      varName = _.camelCase(varName)
+      outStr  = data[varName]
+
+      for mod in mods
+        outStr = modifiers[mod](outStr)
+
+      data[variable] = outStr
+      mods           = []
+
+    data
+
+  requestComponentType: (cb) ->
     compFlat = []
 
     for component, obj of templates
@@ -20,17 +59,22 @@ class Generator
       choices: compFlat
       type   : 'list'
     , (answer) =>
-      variables = []
-      template  = templates[answer.componentType]
-      files     = template.files
+      cb null, templates[answer.componentType]
 
-      for inPath, outPath of files
-        content = fs.readFileSync("#{config.paths.templates}/#{inPath}", 'utf8')
+  cleanModifiers: (variables) ->
+    outArr = []
 
-        variables.push @extractVariables(content)
-        variables.push @extractVariables(outPath)
+    for variable in variables
+      varName = variable.replace(/([a-z](?=[A-Z]))/g, '$1 ')
+      parts   = varName.split(' ')
 
-      @requestVariables template, _.unique(_.flatten(variables)), @buildTemplates
+      for part in parts
+        if modifiers[part.toLowerCase()]
+          varName = varName.replace(part, '')
+
+      outArr.push _.camelCase(varName)
+
+    _.unique(outArr)
 
   extractVariables: (content) ->
     variables = []
@@ -64,7 +108,7 @@ class Generator
 
       cb null, template, obj
 
-  buildTemplates: (err, templateObj, data) ->
+  buildTemplates: (templateObj, data) ->
     for inPath, outPath of templateObj.files
       inContent = fs.readFileSync("#{config.paths.templates}/#{inPath}", 'utf8')
       template  = hogan.compile(inContent, { delimiters: '^^ ^^' })

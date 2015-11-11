@@ -5,18 +5,18 @@ module.exports =
     params:
       menu: { name: 'Home', icon: 'home' }
 
-  '/users':
-    name: 'users'
-    component: require('../components/page-users')
-    params:
-      menu: { name: 'All Users', icon: 'users' }
-
   '/chat':
     name: 'chat'
     component: require('../components/page-chat')
     params:
       menu: { name: 'Chat', icon: 'plane' }
 
-  '/user/:id':
-    name: 'user'
-    component: require('../components/page-user')
+  '/posts':
+    name: 'posts'
+    component: require('../components/page-posts')
+    params:
+      menu: { name: 'Posts', icon: 'plane' }
+
+  '/posts/:id':
+    name: 'post'
+    component: require('../components/page-post')

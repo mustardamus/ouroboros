@@ -1,0 +1,28 @@
+<div class="ui grid">
+  <div class="eight wide column">
+    <div class="ui relaxed divided list">
+      <div class="item" v-for="^^entityNameSingular^^ in ^^entityNamePlural^^">
+        <div class="content">
+          <a href="/#!/^^entityNamePlural^^/{{^^entityNameSingular^^._id}}" class="header">{{^^entityNameSingular^^.name}}</a>
+          <div class="description">
+            <a href="/#!/^^entityNamePlural^^/{{^^entityNameSingular^^._id}}/remove" v-on:click.prevent="onDelete(^^entityNameSingular^^._id)">Delete</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="eight wide column">
+    <form v-on:submit.prevent="onSubmit" class="ui form">
+      <div class="ui error message">
+        {{errorMessage}}
+      </div>
+      <div class="field">
+        <label>^^entityNameSingular^^ name</label>
+        <textarea v-model="^^entityNameSingular^^.name" type="text" placeholder="..."></textarea>
+      </div>
+
+      <button class="ui button" type="submit">Submit</button>
+    </form>
+  </div>
+</div>

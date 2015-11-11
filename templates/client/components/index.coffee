@@ -1,2 +1,2 @@
-<div>^^nameOfUser^^</div>
+<div>^^nameOfUserCapitalizePlural^^</div>
 <huh>^^statusOfUser^^</huh>
