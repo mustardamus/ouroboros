@@ -14,6 +14,7 @@ class UsersRoute
 
     @loginUserRoute()
     @forgotPasswordRoute()
+    @resetPasswordRoute()
 
     #@entityAll.Read().pipe(@cm.findAll(Model))
     #@entityAll.Delete().pipe(@cm.removeAll(Model))
@@ -128,6 +129,30 @@ class UsersRoute
             res.status(403).json({ message: 'Sending reset e-mail failed' })
           else
             res.json({ success: true })
+
+  resetPasswordRoute: ->
+    @app.post '/api/reset-password', (req, res, next) =>
+      unless req.body.token
+        return res.status(403).json({ message: 'Provide a reset token' })
+
+      unless req.body.password
+        return res.status(403).json({ message: 'Provide a new password' })
+
+      jwt.verify req.body.token, @config.auth.secret, (err, decoded) =>
+        return res.status(403).json({ message: 'Invalid token' }) if(err)
+
+        @models.user.findById decoded.userId, (err, user) =>
+          if err or !user
+            return res.status(403).json({ message: 'User not found' })
+
+          salt     = bcrypt.genSaltSync(@config.auth.saltLength)
+          password = bcrypt.hashSync(req.body.password, salt)
+
+          user.update { password: password }, (err) =>
+            if err
+              res.status(403).json({ message: 'Could not update password' })
+            else
+              res.json({ success: true })
 
 
 module.exports = UsersRoute
