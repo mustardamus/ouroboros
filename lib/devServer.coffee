@@ -1,4 +1,5 @@
 fs           = require('fs')
+path         = require('path')
 _            = require('lodash')
 browserSync  = require('browser-sync').create()
 chalk        = require('chalk')
@@ -13,9 +14,9 @@ class DevServer
     chalk.enabled = true
 
     @watchClientFiles = [
-      "#{config.paths.client}/**/*.coffee"
-      "#{config.paths.client}/**/*.styl"
-      "#{config.paths.client}/**/*.html"
+      "#{path.join(config.paths.client)}/**/*.coffee"
+      "#{path.join(config.paths.client)}/**/*.styl"
+      "#{path.join(config.paths.client)}/**/*.html"
     ]
 
     @initialBuild()

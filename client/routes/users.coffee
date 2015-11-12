@@ -10,3 +10,7 @@ module.exports =
   '/account':
     name     : 'account'
     component: require('../components/page-account')
+
+  '/forgot-password':
+    name     : 'forgot-password'
+    component: require('../components/page-forgot-password')
