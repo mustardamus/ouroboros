@@ -1,6 +1,7 @@
 bcrypt = require('bcrypt')
 jwt    = require('jsonwebtoken')
 auth   = require('../middleware/auth')
+email  = require('../helpers/email')
 
 class UsersRoute
   constructor: (@config, @app, @crud, @cm, @models, @io) ->
@@ -10,7 +11,9 @@ class UsersRoute
     @createUserRoute()
     @getUserRoute()
     @updateUserRoute()
+
     @loginUserRoute()
+    @forgotPasswordRoute()
 
     #@entityAll.Read().pipe(@cm.findAll(Model))
     #@entityAll.Delete().pipe(@cm.removeAll(Model))
@@ -101,6 +104,30 @@ class UsersRoute
             res.status(403).json({ message: 'Wrong password' })
           else
             res.json({ token: jwt.sign(user._id, @config.auth.secret) })
+
+  forgotPasswordRoute: ->
+    @app.post '/api/forgot-password', (req, res, next) =>
+      unless req.body.email
+        return res.status(403).json({ message: 'Provide a e-mail address' })
+
+      @models.user.findOne { email: req.body.email }, (err, user) =>
+        if err or !user
+          return res.status(403).json({ message: 'Can not find user with e-mail address' })
+
+        now       = (new Date()).getTime()
+        resetObj  = { userId: user._id, requestedAt: now }
+        token     = jwt.sign(resetObj, @config.auth.secret, { expiresIn: @config.auth.resetTokenExpiresIn })
+        port      = if req.hostname is 'localhost' then ":#{@config.server.port}" else ''
+        resetLink = "#{req.protocol}://#{req.hostname}#{port}/#!/reset-password/#{token}"
+        subject   = @config.messages.resetPasswordMailSubject
+        emailText = @config.messages.resetPasswordMailText(resetLink)
+        emailHtml = @config.messages.resetPasswordMailHtml(resetLink)
+
+        email.sendTextHtml @config.mailgun.fromEmail, user.email, subject, emailText, emailHtml, (err) ->
+          if err
+            res.status(403).json({ message: 'Sending reset e-mail failed' })
+          else
+            res.json({ success: true })
 
 
 module.exports = UsersRoute

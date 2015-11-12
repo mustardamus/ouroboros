@@ -29,7 +29,7 @@ module.exports =
     resetRequest: ->
       $('form', @$el).addClass 'loading'
 
-      @$ajax 'post', '/forgot-password', { email: @$data.email }, (err, response) ->
+      @$ajax 'post', '/api/forgot-password', { email: @$data.email }, (err, response) ->
         if err
           $('form', @$el).addClass('error').removeClass('loading success')
           $('input', @$el).first().focus()
