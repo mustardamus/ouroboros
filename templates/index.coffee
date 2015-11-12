@@ -10,6 +10,12 @@ module.exports =
     capitalize: (str) -> _.capitalize(str)
 
   templates:
+    'Client Component - General':
+      files:
+        'client/components/general/index.coffee': 'client/components/^^componentName^^/index.coffee'
+        'client/components/general/template.html': 'client/components/^^componentName^^/template.html'
+        'client/components/general/style.styl': 'client/components/^^componentName^^/style.styl'
+
     'Client Component - Page':
       files:
         'client/components/page/index.coffee': 'client/components/page-^^pageName^^/index.coffee'
