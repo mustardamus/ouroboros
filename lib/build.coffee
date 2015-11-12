@@ -4,7 +4,7 @@ browserify   = require('browserify')
 stylus       = require('stylus')
 autoprefixer = require('autoprefixer')
 postcss      = require('postcss')
-config       = require('../config')
+config       = require('./config')
 
 class Build
   constructor: ->

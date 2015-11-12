@@ -1,9 +1,10 @@
-fs          = require('fs')
-_           = require('lodash')
-browserSync = require('browser-sync').create()
-chalk       = require('chalk')
-build       = require('./build')
-config      = require('../config')
+fs           = require('fs')
+_            = require('lodash')
+browserSync  = require('browser-sync').create()
+chalk        = require('chalk')
+build        = require('./build')
+config       = require('./config')
+serverConfig = require('../server/config.coffee')
 
 class DevServer
   constructor: ->
@@ -36,7 +37,7 @@ class DevServer
   browserSyncStart: ->
     bsConfig = _.extend {}, config.browserSync.options,
       port : config.devServer.port
-      proxy: { target: "localhost:#{config.server.port}", ws: true }
+      proxy: { target: "localhost:#{serverConfig.server.port}", ws: true }
 
     browserSync.init bsConfig
 

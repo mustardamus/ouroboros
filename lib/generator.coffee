@@ -4,7 +4,7 @@ hogan     = require('hogan.js')
 inquirer  = require('inquirer')
 chalk     = require('chalk')
 async     = require('async')
-config    = require('../config')
+config    = require('./config')
 modifiers = require("#{config.paths.templates}").modifiers
 templates = require("#{config.paths.templates}").templates
 

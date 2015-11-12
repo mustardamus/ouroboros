@@ -3,7 +3,6 @@ uglify = require('uglify-js')
 csso   = require('csso')
 chalk  = require('chalk')
 build  = require('./build')
-config = require('../config')
 
 class Pack
   constructor: ->
