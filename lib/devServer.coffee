@@ -3,6 +3,7 @@ path         = require('path')
 _            = require('lodash')
 browserSync  = require('browser-sync').create()
 chalk        = require('chalk')
+async        = require('async')
 build        = require('./build')
 config       = require('./config')
 serverConfig = require('../server/config.coffee')
@@ -19,11 +20,11 @@ class DevServer
       "#{path.join(config.paths.client)}/**/*.html"
     ]
 
-    @initialBuild()
-    @browserSyncStart()
-    @watchClientFileChanges()
+    @initialBuild =>
+      @browserSyncStart()
+      @watchClientFileChanges()
 
-  build: (type) ->
+  build: (type, cb = ->) ->
     build[type] (err, path) ->
       if err
         console.log chalk.red(err)
@@ -31,9 +32,17 @@ class DevServer
         browserSync.reload(path)
         console.log "#{chalk.green("Compiled")} #{chalk.yellow(path)}"
 
-  initialBuild: ->
+      cb()
+
+  initialBuild: (cb) ->
+    funcsArr = []
+
     for type in ['libs', 'html', 'script', 'style', 'font']
-      @build type
+      do (type) =>
+        funcsArr.push (cb) =>
+          @build type, cb
+
+    async.series funcsArr, cb
 
   browserSyncStart: ->
     bsConfig = _.extend {}, config.browserSync.options,

@@ -4,6 +4,4 @@ bower_components
 public
 temp
 server/config.coffee
-
-# should be doewloaded by oro generator
-selenium-server-standalone-2.48.2.jar
+lib/selenium-server-standalone-2.48.2.jar
