@@ -18,7 +18,6 @@ class UsersRoute
 
     #@entityAll.Read().pipe(@cm.findAll(Model))
     #@entityAll.Delete().pipe(@cm.removeAll(Model))
-
     #@entitySingle.Delete().pipe(@cm.removeOne(Model))
 
   createUserRoute: ->

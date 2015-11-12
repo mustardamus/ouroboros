@@ -17,7 +17,7 @@ class Pack
       if err
         console.log chalk.red(err)
       else
-        console.log chalk.green("Compiled #{path}")
+        console.log "#{chalk.green('Compiled')} #{chalk.yellow(path)}"
 
   compress: (type) ->
     build[type] (err, path) ->
@@ -36,7 +36,7 @@ class Pack
         fs.unlinkSync path
         fs.writeFileSync path, minified, 'utf8'
 
-        console.log chalk.green("Minified #{path}")
+        console.log "#{chalk.green('Minified')} #{chalk.yellow(path)}"
 
 
 module.exports = new Pack
