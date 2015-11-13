@@ -34,7 +34,7 @@ class OroBin
       when 'pack', 'p'
         require "#{lib}/pack"
       when 'test', 't'
-        spawn.sync 'nightwatch', { stdio: 'inherit' }
+        spawn.sync 'node', ['node_modules/nightwatch/bin/nightwatch'], { stdio: 'inherit' }
       else
         console.log "#{chalk.red('Unknown Command:')} #{chalk.yellow(argv._[0])}\n"
         @printUsage()
