@@ -17,7 +17,10 @@ Or get the latest code and link it:
     npm install
     npm link
 
-### `oro new` (`oro n`) - Create a new application
+### `oro new [project-name]` (`oro n [project-name]`) - Create a new application
+
+Creates a new folder `project-name` with all the things needed to start a new
+project. All NPM and Bower dependencies will be installed automatically.
 
 ### `oro start` (`oro s`) - Start the development server
 
@@ -39,16 +42,18 @@ processes at once (see `./Procfile`):
   restarted. Default port is 9990.
 
 ### `oro generate` (`oro g`) - Generate components from templates
-### `oro pack` (`oro p`) - Back the application files for production
+
+### `oro pack` (`oro p`) - Pack the application files for production
+
+Minifies the JavaScript files `./public/libs.js` and `./public/bundle.js` with
+[UglifyJS](https://github.com/mishoo/UglifyJS). The stylesheet
+`./public/bundle.css` is minified with [CSSO](https://github.com/css/csso).
+
+Run this command after releasing a new build on the server to reduce loading
+time and file sizes.
+
 ### `oro test` (`oro t`) - Run the end2end tests
 
-Start Express/CRUD and Development Server with Foreman
-
-    npm start
-
-Minify Script and style
-
-    npm run-script pack
 
 Define third party libs that are loaded as globals in ./client/index.coffee like
 so:
