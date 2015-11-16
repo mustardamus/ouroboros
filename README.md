@@ -1,12 +1,13 @@
 ## Ouroboros Framework
 
 Ouroboros is a collection of various JavaScript tools and frameworks which aims
-to speed up developing Singe Page Applications. The application comes with a
+to speed up developing Single Page Applications. The application comes with a
 user registration and login system.
 
 ## `oro` Commands
 
-First install Ouroboros globally to have access to the `oro` application:
+First install Ouroboros globally to have access to the `oro` application (not
+published yet):
 
     npm install -g ouroboros
 
@@ -43,6 +44,10 @@ processes at once (see `./Procfile`):
 
 ### `oro generate` (`oro g`) - Generate components from templates
 
+This command will prompt you with a list of templates to generate files from and
+variables used in these templates. Templates are located in `./templates` and
+defined in `./templates/index.coffee`.
+
 ### `oro pack` (`oro p`) - Pack the application files for production
 
 Minifies the JavaScript files `./public/libs.js` and `./public/bundle.js` with
@@ -53,6 +58,7 @@ Run this command after releasing a new build on the server to reduce loading
 time and file sizes.
 
 ### `oro test` (`oro t`) - Run the end2end tests
+
 
 
 Define third party libs that are loaded as globals in ./client/index.coffee like
