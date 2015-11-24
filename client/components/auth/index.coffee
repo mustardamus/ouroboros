@@ -26,7 +26,7 @@ module.exports =
       @$route.router.go { name: 'home' }
 
     getCurrentUser: ->
-      @$crud('me').read (err, user) =>
+      @$crud('me', true).read (err, user) =>
         if err
           @$root.$data.loggedIn    = false
           @$root.$data.currentUser = null

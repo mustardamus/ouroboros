@@ -94,3 +94,28 @@ spec*.coffee, can also be in a subdirectory.
 
     npm install nightwatch -g
     nightwatch
+
+## CRUD Requests with and without Authentication
+
+Sending a request via @$crud, but without sending the authentication token
+along:
+
+    @$crud().read()
+    @$crud(id).read()
+
+Sending a request with the authentication token:
+
+    @$crud(null, true).read()
+    @$crud(id, true).read()
+
+Make sure you have the auth middleware included. This will remove the
+authentication token from the query built by CRUD, so it works properly:
+
+    auth = require('../middleware/auth')
+
+    class Route
+      constructor: (@config, @app, @crud, @cm, @models, @io) ->
+        @crud.entity('/posts')
+          .Read()
+          .use auth(@config, @models)
+          .pipe @cm.findOne(@models.user)

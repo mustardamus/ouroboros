@@ -86,7 +86,7 @@ module.exports =
 
       $('form', @$el).addClass 'loading'
 
-      @$crud('me').update data, (err, user) =>
+      @$crud('me', true).update data, (err, user) =>
         unless err
           @onUpdateSuccess user
         else

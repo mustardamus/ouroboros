@@ -15,4 +15,8 @@ module.exports = (config, models) ->
           res.status(403).send({ message: 'Error finding current user' })
         else
           req.user = user
+
+          delete req.body.token
+          delete req.query.token
+
           next()
