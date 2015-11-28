@@ -9,24 +9,8 @@ module.exports =
     $('input', @$el).first().focus()
 
   methods:
-    onLoginClick: ->
-      @loginRequest() if @validateForm()
-
-    validateForm: ->
-      valid = true
-
-      if $.trim(@$data.username).length is 0
-        valid = false
-        $('#username-field', @$el).addClass 'error'
-
-      if $.trim(@$data.password).length is 0
-        valid = false
-        $('#password-field', @$el).addClass 'error'
-
-      if valid
-        $('.field.error', @$el).removeClass 'error'
-
-      valid
+    onSubmit: ->
+      @loginRequest() if @form.$valid
 
     loginRequest: ->
       $('form', @$el).addClass 'loading'

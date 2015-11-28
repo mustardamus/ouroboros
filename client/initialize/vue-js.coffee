@@ -1,6 +1,6 @@
 module.exports = ->
   Vue.use(VueRouter)
-  #Vue.use(window['vue-validator'])
+  # VueForm is initialized automatically
 
   Vue.mixin(require('../mixins/ajax'))
   Vue.mixin(require('../mixins/crud'))

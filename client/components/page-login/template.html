@@ -1,24 +1,21 @@
 <div class="page-login">
-  <form class="ui form">
+  <form v-on:submit.prevent="onSubmit" class="ui form" v-form name="form">
     <div class="ui error message">
       <div class="header">Can't log you in</div>
       <p>Are you sure the username and password match? Please try again.</p>
     </div>
 
-    <div class="field" id="username-field">
+    <div :class="{error: form.username.$dirty && form.username.$invalid}" class="field" id="username-field">
       <label for="username">Username</label>
-      <input type="text" v-model="username" id="username" placeholder="Username">
+      <input type="text" v-model="username" v-form-ctrl required name="username" id="username" placeholder="Username">
     </div>
 
-    <div class="field" id="password-field">
+    <div :class="{error: form.password.$dirty && form.password.$invalid}" class="field" id="password-field">
       <label for="password">Password</label>
-      <input type="password" v-model="password" id="password" placeholder="Password">
+      <input type="password" v-model="password" v-form-ctrl required name="password" id="password" placeholder="Password">
     </div>
 
-    <button class="ui button primary" type="submit" v-on:click.prevent="onLoginClick">
-      Login
-    </button>
-
+    <button class="ui button primary" type="submit">Login</button>
     <a class="ui button" v-link="{ name: 'forgot-password' }">Forgot Password?</a>
   </form>
 </div>
