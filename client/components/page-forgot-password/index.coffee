@@ -6,24 +6,8 @@ module.exports =
     email       : ''
 
   methods:
-    onResetClick: ->
-      @resetRequest() if @validateForm()
-
-    isValidEmail: (email) ->
-      re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i
-      re.test(email)
-
-    validateForm: ->
-      valid = true
-
-      if $.trim(@$data.email).length is 0 or !@isValidEmail(@$data.email)
-        valid = false
-        $('#email-field', @$el).addClass 'error'
-
-      if valid
-        $('.field.error', @$el).removeClass 'error'
-
-      valid
+    onSubmit: ->
+      @resetRequest() if @form.$valid
 
     resetRequest: ->
       $('form', @$el).addClass 'loading'
@@ -33,6 +17,6 @@ module.exports =
           $('form', @$el).addClass('error').removeClass('loading success')
           $('input', @$el).first().focus()
 
-          @$data.errorMessage = err.responseJSON.message
+          @$data.errorMessage = JSON.parse(err.response).message
         else
           $('form', @$el).removeClass('error loading').addClass 'success'

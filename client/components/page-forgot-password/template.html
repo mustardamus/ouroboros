@@ -1,5 +1,5 @@
 <div class="page-forgot-password">
-  <form class="ui form">
+  <form v-on:submit.prevent="onSubmit" class="ui form" v-form name="form">
     <div class="ui error message">
       <p>{{errorMessage}}</p>
     </div>
@@ -8,12 +8,12 @@
       <p>Reset E-Mail has been sent to {{email}}</p>
     </div>
 
-    <div class="field" id="email-field">
-      <label for="username">E-Mail</label>
-      <input type="text" v-model="email" id="email-field" placeholder="your@mail.com">
+    <div :class="{error: form.$submitted && form.email.$invalid}" class="field">
+      <label for="email">E-Mail</label>
+      <input type="email" v-model="email" v-form-ctrl required name="email" id="email" placeholder="your@mail.com">
     </div>
 
-    <button class="ui button primary" type="submit" v-on:click.prevent="onResetClick">
+    <button class="ui button primary" type="submit">
       Send Reset Link
     </button>
   </form>
