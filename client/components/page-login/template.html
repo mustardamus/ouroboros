@@ -5,12 +5,12 @@
       <p>Are you sure the username and password match? Please try again.</p>
     </div>
 
-    <div :class="{error: form.username.$dirty && form.username.$invalid}" class="field" id="username-field">
+    <div :class="{error: form.$submitted && form.username.$invalid}" class="field" id="username-field">
       <label for="username">Username</label>
       <input type="text" v-model="username" v-form-ctrl required name="username" id="username" placeholder="Username">
     </div>
 
-    <div :class="{error: form.password.$dirty && form.password.$invalid}" class="field" id="password-field">
+    <div :class="{error: form.$submitted && form.password.$invalid}" class="field" id="password-field">
       <label for="password">Password</label>
       <input type="password" v-model="password" v-form-ctrl required name="password" id="password" placeholder="Password">
     </div>

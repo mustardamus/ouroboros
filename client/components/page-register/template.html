@@ -1,26 +1,24 @@
 <div class="page-register">
-  <form class="ui form">
+  <form v-on:submit.prevent="onSubmit" class="ui form" v-form name="form">
     <div class="ui error message">
       {{errorMessage}}
     </div>
 
-    <div class="field" id="username-field">
+    <div :class="{error: form.$submitted && form.username.$invalid}" class="field" id="username-field">
       <label for="username">Username</label>
-      <input type="text" v-model="username" id="username" placeholder="Username">
+      <input type="text" v-model="username" v-form-ctrl required name="username" id="username" placeholder="Username">
     </div>
 
-    <div class="field" id="password-field">
+    <div :class="{error: form.$submitted && form.password.$invalid}" class="field" id="password-field">
       <label for="password">Password</label>
-      <input type="password" v-model="password" id="password" placeholder="Password">
+      <input type="password" v-model="password" v-form-ctrl required name="password" id="password" placeholder="Password">
     </div>
 
-    <div class="field" id="password-check-field">
-      <label for="password-check">Password Check</label>
-      <input type="password" v-model="passwordCheck" id="password-check" placeholder="Password Check">
+    <div :class="{error: form.$submitted && form.passwordCheck.$invalid}" class="field" id="password-check-field">
+      <label for="passwordCcheck">Password Check</label>
+      <input type="password" v-model="passwordCheck" v-form-ctrl required custom-validator="passwordMatch" name="passwordCheck" id="passwordCheck" placeholder="Password Check">
     </div>
 
-    <button class="ui button primary" type="submit" v-on:click.prevent="onRegisterClick">
-      Register
-    </button>
+    <button class="ui button primary" type="submit">Register</button>
   </form>
 </div>
