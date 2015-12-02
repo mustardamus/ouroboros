@@ -2,7 +2,7 @@
   <div v-if="currentUser">
     <h1>Hello {{currentUser.username}}!</h1>
 
-    <form class="ui form">
+    <form v-on:submit.prevent="onSubmit" class="ui form" v-form name="form">
       <div class="ui success message">
         <div class="header">Successfully updated.</div>
       </div>
@@ -12,14 +12,14 @@
       </div>
 
       <div v-show="!changePassword">
-        <div class="field" id="username-field">
+        <div :class="{error: form.$submitted && form.username.$invalid}" class="field" id="username-field">
           <label for="username">Username</label>
-          <input type="text" v-model="currentUser.username" id="username" placeholder="Username">
+          <input type="text" v-model="currentUser.username" v-form-ctrl required name="username" id="username" placeholder="Username">
         </div>
 
-        <div class="field" id="email-field">
+        <div :class="{error: form.$submitted && form.email.$invalid}" class="field" id="email-field">
           <label for="email">E-Mail</label>
-          <input type="text" v-model="currentUser.email" id="email" placeholder="E-Mail">
+          <input type="email" v-model="currentUser.email" v-form-ctrl required name="email" id="email" placeholder="E-Mail">
           <div class="ui icon message" v-if="!currentUser.email">
             <i class="info icon"></i>
             <div class="content">
@@ -34,24 +34,24 @@
       </div>
 
       <div v-show="changePassword">
-        <div class="field" id="password-old-field">
-          <label for="password-old">Old Password</label>
-          <input type="password" v-model="passwordOld" id="password-old" placeholder="Old Password">
+        <div :class="{error: form.$submitted && form.passwordOld.$invalid}" class="field" id="password-old-field">
+          <label for="passwordOld">Old Password</label>
+          <input type="password" v-model="passwordOld" v-form-ctrl required name="passwordOld" id="passwordOld" placeholder="Old Password">
         </div>
 
-        <div class="field" id="password-new-field">
+        <div :class="{error: form.$submitted && form.passwordNew.$invalid}" class="field" id="password-new-field">
           <label for="password-new">New Password</label>
-          <input type="password" v-model="passwordNew" id="password-new" placeholder="New Password">
+          <input type="password" v-model="passwordNew" v-form-ctrl required name="passwordNew" id="passwordNew" placeholder="New Password">
         </div>
 
-        <div class="field" id="password-new-check-field">
+        <div :class="{error: form.$submitted && form.passwordNewCheck.$invalid}" class="field" id="password-new-check-field">
           <label for="password-new-check">New Password Check</label>
-          <input type="password" v-model="passwordNewCheck" id="password-new-check" placeholder="New Password Check">
+          <input type="password" v-model="passwordNewCheck" v-form-ctrl required custom-validator="passwordMatch" name="passwordNewCheck" id="passwordNewCheck" placeholder="New Password Check">
         </div>
       </div>
 
       <div class="submit field">
-        <button class="ui button primary" type="submit" v-on:click.prevent="onUpdateClick">
+        <button class="ui button primary" type="submit">
           Update
         </button>
 

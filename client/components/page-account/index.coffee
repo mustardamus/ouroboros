@@ -24,6 +24,9 @@ module.exports =
       else
         $('#username', @$el).focus()
 
+    passwordMatch: (val) ->
+      val is @$data.passwordNew
+
     onChangePasswordClick: ->
       @$data.changePassword = !@$data.changePassword
 
@@ -34,45 +37,8 @@ module.exports =
           @checkEmptyMail()
       , 100
 
-    onUpdateClick: ->
-      @updateRequest() if @validateForm()
-
-    isValidEmail: (email) ->
-      re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i
-      re.test(email)
-
-    validateForm: ->
-      valid = true
-
-      unless @$data.changePassword
-        if $.trim(@$data.currentUser.username).length is 0
-          valid = false
-          $('#username-field', @$el).addClass 'error'
-
-        unless @isValidEmail(@$data.currentUser.email)
-          valid = false
-          $('#email-field', @$el).addClass 'error'
-      else
-        if $.trim(@$data.passwordOld).length is 0
-          valid = false
-          $('#password-old-field', @$el).addClass 'error'
-
-        if $.trim(@$data.passwordNew).length is 0
-          valid = false
-          $('#password-new-field', @$el).addClass 'error'
-
-        if $.trim(@$data.passwordNewCheck).length is 0
-          valid = false
-          $('#password-new-check-field', @$el).addClass 'error'
-
-        if @$data.passwordNew isnt @$data.passwordNewCheck
-          valid = false
-          $('#password-new-check-field', @$el).addClass 'error'
-
-      if valid
-        $('.field.error', @$el).removeClass 'error'
-
-      valid
+    onSubmit: ->
+      @updateRequest() if @form.$valid
 
     updateRequest: ->
       data =
